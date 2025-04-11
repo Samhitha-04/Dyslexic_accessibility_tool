@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-white text-gray-800">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dyslexia Focus Tool</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .focus-highlight span {
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .focus-highlight span:hover {
+      background-color: #fde68a;
+      transform: scale(1.15);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center p-6 min-h-screen font-sans transition-colors duration-300">
+  <header class="w-full max-w-3xl mb-10 text-center">
+    <h1 class="text-4xl font-bold mb-4">Dyslexia Focus Tool</h1>
+    <p class="text-lg text-gray-600">A simple tool to help dyslexic readers focus better by highlighting words on hover.</p>
+  </header>
+
+  <main class="w-full max-w-2xl space-y-6">
+    <section>
+      <h2 class="text-2xl font-semibold mb-2">How it works</h2>
+      <p class="text-gray-700 dark:text-gray-200">
+        This tool breaks your content into words. When you hover over a word, it gets highlighted and enlarged—helping your eyes track line by line without getting overwhelmed.
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <div class="flex items-center gap-3">
+        <label for="toggle" class="font-medium">Focus Mode</label>
+        <input type="checkbox" id="toggle" class="w-5 h-5" checked />
+      </div>
+      <div class="flex items-center gap-3">
+        <label class="font-medium">Dark Mode</label>
+        <input type="checkbox" id="darkToggle" class="w-5 h-5" />
+      </div>
+      <div class="flex items-center gap-3">
+        <label class="font-medium">Font Size</label>
+        <input type="range" min="16" max="28" value="18" id="fontSlider" />
+      </div>
+    </section>
+
+    <section id="demo" class="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md focus-highlight text-lg leading-relaxed">
+      <!-- Text rendered here -->
+    </section>
+  </main>
+
+  <script>
+    const demoText = `This is an interactive demo to help visualize how focusing on one word at a time can improve readability. Try hovering over each word!`;
+
+    const demo = document.getElementById("demo");
+    const toggle = document.getElementById("toggle");
+    const darkToggle = document.getElementById("darkToggle");
+    const fontSlider = document.getElementById("fontSlider");
+
+    function renderText(active) {
+      demo.innerHTML = active
+        ? demoText.split(" ").map(word => `<span class="inline-block mx-0.5">${word}</span>`).join(" ")
+        : `<p>${demoText}</p>`;
+    }
+
+    toggle.addEventListener("change", () => renderText(toggle.checked));
+
+    darkToggle.addEventListener("change", () => {
+      document.body.classList.toggle("bg-white", !darkToggle.checked);
+      document.body.classList.toggle("bg-gray-900", darkToggle.checked);
+      document.body.classList.toggle("text-gray-800", !darkToggle.checked);
+      document.body.classList.toggle("text-gray-100", darkToggle.checked);
+    });
+
+    fontSlider.addEventListener("input", () => {
+      demo.style.fontSize = fontSlider.value + "px";
+    });
+
+    // Initial render
+    renderText(true);
+  </script>
+</body>
+</html>
